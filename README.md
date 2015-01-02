@@ -1,4 +1,4 @@
-exrabbit_example
-================
+ExrabbitExample
+===============
 
 exrabbit usage example

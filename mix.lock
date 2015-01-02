@@ -1,0 +1,4 @@
+%{"amqp_client": {:git, "git://github.com/jbrisbin/amqp_client.git", "35168d6072a7a0fb982d72d6be3f2451fc828639", []},
+  "exrabbit": {:git, "git://github.com/velimir0xff/exrabbit.git", "7bdabc9dd195edc2b27188356b8905e96563c7cb", [branch: "master"]},
+  "jazz": {:hex, :jazz, "0.2.1"},
+  "rabbit_common": {:git, "git://github.com/jbrisbin/rabbit_common.git", "78a5e0812b501f900afd0309dc890c75a9dfce37", [tag: "rabbitmq-3.4.0"]}}
