@@ -12,23 +12,23 @@ defmodule ExrabbitExample.Worker do
       durable: true
     ),
     no_ack: false
+    # conn_opts: [qos: basic_qos(prefetch_count: 1)]
 
   use GenServer
 
-  def start_link(name) do
+  def start_link(name, sleep) do
     ref_name = Module.concat(__MODULE__, String.replace(name, ~r/\s+/, "_"))
-    GenServer.start_link(__MODULE__, [name], name: ref_name)
+    GenServer.start_link(__MODULE__, [name, sleep], name: ref_name)
   end
 
-  init [name] do
-    {:ok, name}
+  init [name, sleep] do
+    {:ok, [name, sleep]}
   end
 
-  on %Message{body: body}, name do
-    Logger.info "Woker (#{name}) received and promised to acknowledge #{body}"
-    :timer.sleep(5000)
+  on %Message{body: body}, [name, sleep] do
+    Logger.info "Worker (#{name}) received and promised to acknowledge #{body}"
+    :timer.sleep(sleep)
     Logger.info "Worker (#{name}) processed #{body}"
-    {:ack, name}
+    {:ack, [name, sleep]}
   end
-
 end

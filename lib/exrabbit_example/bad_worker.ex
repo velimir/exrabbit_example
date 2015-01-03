@@ -12,6 +12,7 @@ defmodule ExrabbitExample.BadWorker do
       durable: true
     ),
     no_ack: false
+    # conn_opts: [qos: basic_qos(prefetch_count: 1)]
 
   use GenServer
 
@@ -25,7 +26,7 @@ defmodule ExrabbitExample.BadWorker do
   end
 
   on %Message{body: body}, name do
-    Logger.info "Woker (#{name}) received and promised to acknowledge #{body}"
+    Logger.info "Worker (#{name}) received and promised to acknowledge #{body}"
     raise "Accidentally failed"
     Logger.info "Worker (#{name}) processed #{body}"
     {:ack, name}

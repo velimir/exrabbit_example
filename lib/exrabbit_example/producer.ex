@@ -35,19 +35,17 @@ defmodule ExrabbitExample.Producer do
   end
 
   def handle_cast(:produce, state(producer: producer, count: count) = rec) do
-    Logger.info "producer is going to produce new message [#{count}]"
+    Logger.info "producer [#{count}]"
     Producer.publish(producer, "deal with #{count}", await_confirm: true)
     {:noreply, rec}
   end
 
   def handle_info(:produce, state(freq: freq, count: count) = rec) do
-    Logger.info "received handle_info :produce with state: #{inspect rec}"
     GenServer.cast(__MODULE__, :produce)
     Process.send_after(__MODULE__, :produce, freq)
     {:noreply, state(rec, count: count + 1)}
   end
-  def handle_info(:timeout, state(freq: freq, count: count) = rec) do
-    Logger.info "received handle_info :timeout with state: #{inspect rec}"
+  def handle_info(:timeout, state(freq: freq) = rec) do
     Process.send_after(__MODULE__, :produce, freq)
     {:noreply, rec}
   end
